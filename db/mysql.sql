@@ -363,3 +363,61 @@ CREATE INDEX IDX_QRTZ_FT_J_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_NAME,JOB_GROU
 CREATE INDEX IDX_QRTZ_FT_JG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_GROUP);
 CREATE INDEX IDX_QRTZ_FT_T_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP);
 CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
+
+DROP TABLE IF EXISTS `renren_fast_vue`.`bs_area`;
+CREATE TABLE  `renren_fast_vue`.`bs_area` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `area_cd` varchar(10) NOT NULL COMMENT '地区编码',
+  `parent_id` varchar(20) NOT NULL COMMENT '上级ID',
+  `level_` varchar(1) NOT NULL COMMENT '上级ID',
+  `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建者ID',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user_id` bigint(20) DEFAULT NULL COMMENT '更新者ID',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='地区';
+
+
+DROP TABLE IF EXISTS `renren_fast_vue`.`bs_product`;
+CREATE TABLE  `renren_fast_vue`.`bs_product` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `product_cd` varchar(100) NOT NULL COMMENT '物料编码',
+  `brand` varchar(100) NOT NULL COMMENT '品牌',
+  `style` varchar(100) NOT NULL COMMENT '型号',
+  `color_cd` varchar(100) NOT NULL COMMENT '色号',
+  `year` varchar(100) NOT NULL COMMENT '年份',
+  `stock` bigint(20) DEFAULT NULL COMMENT '总部库存',
+  `agent_stock` bigint(20) DEFAULT NULL COMMENT '代理商库存',
+  `safety_stock` bigint(20) DEFAULT NULL COMMENT '安全库存',
+  `is_cm` varchar(100) NOT NULL COMMENT '是否定制',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `parameter1` varchar(100) DEFAULT NULL COMMENT '参数1',
+  `parameter2` varchar(100) DEFAULT NULL COMMENT '参数2',
+  `parameter3` varchar(100) DEFAULT NULL COMMENT '参数3',
+  `parameter4` varchar(100) DEFAULT NULL COMMENT '参数4',
+  `parameter5` varchar(100) DEFAULT NULL COMMENT '参数5',
+  `parameter6` varchar(100) DEFAULT NULL COMMENT '参数6',
+  `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建者ID',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user_id` bigint(20) DEFAULT NULL COMMENT '更新者ID',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `product_cd` (`product_cd`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='产品';
+
+
+
+-- 菜单SQL
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    VALUES ('36', '产品', 'modules/generator/bsproduct.html', NULL, '1', 'fa fa-file-code-o', '6');
+-- 按钮父菜单ID
+set @parentId = @@identity;
+-- 菜单对应按钮SQL
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '查看', null, 'generator:bsproduct:list,generator:bsproduct:info', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '新增', null, 'generator:bsproduct:save', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '修改', null, 'generator:bsproduct:update', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '删除', null, 'generator:bsproduct:delete', '2', null, '6';
