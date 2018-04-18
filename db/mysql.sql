@@ -421,3 +421,63 @@ INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `or
     SELECT @parentId, '修改', null, 'generator:bsproduct:update', '2', null, '6';
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
     SELECT @parentId, '删除', null, 'generator:bsproduct:delete', '2', null, '6';
+
+
+--微店订单创建表
+DROP TABLE IF EXISTS `renren_fast_vue`.`bs_wechat_order`;
+CREATE TABLE  `renren_fast_vue`.`bs_wechat_order` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `order_id` varchar(10) NOT NULL COMMENT '订单ID',
+  `order_status` varchar(10) NOT NULL COMMENT '订单状态',
+  `order_total_price` varchar(10) DEFAULT NULL COMMENT '订单总价格(单位 : 分)',
+  `order_create_time` datetime DEFAULT NULL COMMENT '订单创建时间',
+  `order_express_price` varchar(10) DEFAULT NULL COMMENT '订单运费价格(单位 : 分)',
+  `buyer_openid` varchar(40) DEFAULT NULL COMMENT '买家微信OPENID',
+  `buyer_nick` varchar(100) DEFAULT NULL COMMENT '买家微信昵称',
+  `receiver_name` varchar(100) DEFAULT NULL COMMENT '收货人姓名',
+  `receiver_province` varchar(100) DEFAULT NULL COMMENT '收货地址省份',
+  `receiver_city` varchar(100) DEFAULT NULL COMMENT '收货地址城市',
+  `receiver_zone` varchar(100) DEFAULT NULL COMMENT '收货地址区/县',
+  `receiver_address` varchar(200) DEFAULT NULL COMMENT '收货详细地址',
+  `receiver_mobile` varchar(15) DEFAULT NULL COMMENT '收货人移动电话',
+  `receiver_phone` varchar(15) DEFAULT NULL COMMENT '收货人固定电话',
+  `product_id` varchar(40) DEFAULT NULL COMMENT '商品ID',
+  `product_name` varchar(100) DEFAULT NULL COMMENT '商品名称',
+  `product_price` varchar(10) DEFAULT NULL COMMENT '商品价格(单位 : 分)',
+  `product_sku` varchar(300) DEFAULT NULL COMMENT '商品SKU',
+  `product_count` varchar(10) DEFAULT NULL COMMENT '商品个数',
+  `product_img` varchar(100) DEFAULT NULL COMMENT '商品图片',
+  `delivery_id` varchar(40) DEFAULT NULL COMMENT '运单ID',
+  `delivery_company` varchar(40) DEFAULT NULL COMMENT '物流公司编码',
+  `trans_id` varchar(40) DEFAULT NULL COMMENT '交易ID',
+  `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建者ID',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user_id` bigint(20) DEFAULT NULL COMMENT '更新者ID',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='微店订单';
+
+--微店订单明细
+DROP TABLE IF EXISTS `renren_fast_vue`.`bs_Wechat_Order_Line`;
+CREATE TABLE  `renren_fast_vue`.`bs_Wechat_Order_Line` (
+   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+   `order_id` varchar(10) NOT NULL COMMENT '订单ID',
+	`product_id`	varchar(40) COMMENT '商品ID',
+	`product_name`	varchar(100) COMMENT '商品名称',
+	`product_price`	varchar(10) COMMENT '商品价格(单位 : 分)',
+	`product_sku`	varchar(300) COMMENT '商品SKU',
+	`product_count` varchar(10)	COMMENT '商品个数',
+	`product_img`	varchar(100) COMMENT '商品图片',
+	  `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建者ID',
+	  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+	  `update_user_id` bigint(20) DEFAULT NULL COMMENT '更新者ID',
+	  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='微店订单明细';
+
+
+
+
+
+
+
